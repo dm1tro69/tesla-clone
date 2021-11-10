@@ -1,21 +1,32 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styled from "styled-components";
 
-const Section = () => {
+interface SectionProps {
+    title: string
+    description: string
+    backgroundImg: string
+    leftBtnText: string
+    rightBtnText?: string
+}
+
+const Section: FC<SectionProps> = ({title, description, backgroundImg, leftBtnText, rightBtnText}) => {
     return (
-        <Wrap>
+        <Wrap bgImage={backgroundImg}>
             <ItemText>
-                <h1>Model S</h1>
-                <p>Order Online for Touchless Delivery</p>
+                <h1>{title}</h1>
+                <p>{description}</p>
             </ItemText>
             <Buttons>
             <ButtonGroup>
                 <LeftButton>
-                    Custom Order
+                    {leftBtnText}
                 </LeftButton>
+                {rightBtnText &&
                 <RightButton>
-                    Existing Inventory
+                    {rightBtnText}
                 </RightButton>
+                }
+
             </ButtonGroup>
             <DownArrow src='/images/white-arrow.png'/>
             </Buttons>
@@ -25,17 +36,22 @@ const Section = () => {
 
 export default Section;
 
-const Wrap = styled.div`
+interface IProps {
+    bgImage: string
+}
+
+const Wrap = styled.div<IProps>`
   width: 100vw;
   height: 100vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url("/images/model-s.jpg");
+  //background-image: url("/images/model-s.jpg");
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  background-image: ${props => `url("/images/${props.bgImage}")`};
 `
 const ItemText = styled.div`
     padding-top: 15vh;
@@ -44,6 +60,9 @@ const ItemText = styled.div`
 const ButtonGroup = styled.div`
     display: flex;
   margin-bottom: 30px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
   
     
 `
